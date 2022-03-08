@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "antd";
 
 import png from "../assets/test.png";
 import styles from "./index.module.less";
 
 const App = () => {
+  useEffect(() => {
+    console.log(process.env);
+    document.title = process.env.test || "";
+  }, []);
+
   return (
     <>
       <img className={styles.png} src={png} />

@@ -3,7 +3,18 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const AddAssetHtmlPlugin = require("add-asset-html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
+const chalk = require("chalk");
 const fs = require("fs");
+const dotenv = require("dotenv");
+
+const { DefinePlugin } = webpack;
+
+if (!fs.existsSync(path.resolve(__dirname, "..", ".env"))) {
+  console.log(chalk.red(".env文件不存在"));
+  process.exit(1);
+}
+
+dotenv.config();
 
 module.exports = (isDev) => {
   const dllRoot = `../dll/${isDev ? "development" : "production"}`;
@@ -31,7 +42,7 @@ module.exports = (isDev) => {
       index: path.resolve(__dirname, "../src/index.tsx"),
     },
     output: {
-      path: path.resolve(__dirname, "../build"), //必须是绝对路径
+      path: path.resolve(__dirname, "../dist"), //必须是绝对路径
       filename: "[name].[chunkhash:8].bundle.js",
       chunkFilename: "[name].[chunkhash:8].chuck.js",
       publicPath: "/", //通常是CDN地址
@@ -140,6 +151,9 @@ module.exports = (isDev) => {
       }),
       new MiniCssExtractPlugin({
         filename: "[name].[chunkhash:8].css",
+      }),
+      new DefinePlugin({
+        "process.env": JSON.stringify(process.env),
       }),
       ...dllPlugins,
     ],

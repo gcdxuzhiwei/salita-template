@@ -1,5 +1,7 @@
-const { merge } = require("webpack-merge");
+process.env.NODE_ENV = "development";
+
 const common = require("./webpack.common.js");
+const { merge } = require("webpack-merge");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = merge(common(true), {

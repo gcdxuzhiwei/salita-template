@@ -4,7 +4,7 @@ const child = require("child_process");
 
 const app = new Koa();
 
-app.use(koaStatic("./build"));
+app.use(koaStatic("./dist"));
 
 app.listen(1111, () => {
   console.log("http://localhost:1111");
